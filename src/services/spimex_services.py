@@ -1,11 +1,10 @@
 import requests
-from datetime import datetime
+from sqlalchemy.exc import SQLAlchemyError
 
+from database.db import SessionLocal
+from models.spimex_trading_result import SpimexTradingResult
 from parsers.excel_parser import SpimexExcelParser
 from parsers.page_parser import SpimexPageParser
-from models.spimex_trading_result import SpimexTradingResult
-from database.db import SessionLocal
-from sqlalchemy.exc import SQLAlchemyError
 
 
 class SpimexTradingService:
@@ -20,7 +19,6 @@ class SpimexTradingService:
         for bulletin in bulletins:
             url = bulletin["url"]
             date_str = bulletin["date"]
-            date_obj = datetime.strptime(date_str, "%d.%m.%Y").date()
 
             print(f"Обработка бюллетеня за {date_str}: {url}")
 
