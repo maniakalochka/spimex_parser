@@ -29,9 +29,7 @@ class SpimexExcelParser(BaseParser):
 
         df = pd.read_excel(BytesIO(raw_input), engine="xlrd", header=start_idx)
         df.columns = [self.normalize_column(col) for col in df.columns]
-        # print("---- Нормализованные колонки ----")
-        # print(df.columns.tolist())
-        # print("----------------------------------")
+
         results = []
         for _, row in df.iterrows():
             raw_count = row.get("количество_договоров_шт")
