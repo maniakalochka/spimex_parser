@@ -9,7 +9,9 @@ from .base import Base
 class SpimexTradingResult(Base):
     __tablename__ = "spimex_trading_results"
 
-    exchange_product_id: Mapped[str] = mapped_column(String, nullable=False, unique=False)
+    exchange_product_id: Mapped[str] = mapped_column(
+        String, nullable=False, unique=False
+    )
     exchange_product_name: Mapped[str] = mapped_column(String, nullable=False)
     oil_id: Mapped[str] = mapped_column(String(4), nullable=False)
     delivery_basis_id: Mapped[str] = mapped_column(String(3), nullable=False)

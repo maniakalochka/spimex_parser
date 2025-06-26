@@ -33,7 +33,6 @@ class SpimexTradingService:
             except Exception as e:
                 print(f"Ошибка при обработке {url}: {e}")
 
-
     @staticmethod
     def normalize_record(rec: dict) -> dict:
         return {
@@ -42,7 +41,6 @@ class SpimexTradingService:
             "total": float(rec["total"]) if rec["total"] else None,
             "count": int(rec["count"]) if rec["count"] else 0,
         }
-
 
     def _save_to_db(self, records: list[dict]):
         session = SessionLocal()
