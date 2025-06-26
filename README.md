@@ -22,7 +22,7 @@ docker compose up --build
 docker compose exec db psql -U postgres -d spimex_trading_results
 ```
 
-выполнив SQL-запрос:
+выполнив, например, такой SQL-запрос:
 
 ```sql
 SELECT
