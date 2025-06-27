@@ -3,6 +3,8 @@ version: "3.9"
 services:
   spimex-parser:
     build: .
+    env_file:
+      - .env
     container_name: spimex-parser
     depends_on:
       - db

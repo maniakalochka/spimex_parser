@@ -7,9 +7,7 @@ RUN apt-get update && apt-get install -y \
     libpq-dev \
     && rm -rf /var/lib/apt/lists/*
 
-COPY alembic.ini run.sh pyproject.toml poetry.lock*  /src/
-
-COPY src/ /src/
+COPY .env alembic.ini run.sh pyproject.toml poetry.lock*  /src/
 
 ENV PYTHONPATH="/src"
 
@@ -17,7 +15,12 @@ RUN pip install --no-cache-dir poetry \
     && poetry config virtualenvs.create false \
     && poetry install --no-root --no-interaction --no-ansi
 
+COPY src/ /src/
 
-RUN chmod +x run.sh; ./run.sh
+# RUN chmod +x run.sh; ./run.sh
+
+COPY run.sh /src/run.sh
+RUN chmod +x /src/run.sh
+ENTRYPOINT ["/src/run.sh"]
 
 CMD ["python3", "main.py"]
