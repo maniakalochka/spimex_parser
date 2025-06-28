@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Any, Dict, List
+from typing import Any
 from urllib.parse import urljoin
 
 import requests
@@ -11,7 +11,7 @@ from parsers.base import BaseParser
 class SpimexPageParser(BaseParser):
     BASE_URL = "https://spimex.com/markets/oil_products/trades/results/"
 
-    def parse(self, raw_input: Any = None) -> List[Dict]:
+    def parse(self, raw_input: Any = None) -> list[dict]:
         results = []
         next_page_url = self.BASE_URL
 

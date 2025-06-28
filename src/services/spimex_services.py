@@ -1,10 +1,10 @@
 import requests
-from sqlalchemy.exc import SQLAlchemyError
 
 from database.db import SessionLocal
-from models.spimex_trading_result import SpimexTradingResult
+from repositories.spimex_repo import SpimexTradingRepository
 from parsers.excel_parser import SpimexExcelParser
 from parsers.page_parser import SpimexPageParser
+from schemas.trading_result import TradingResultSchema
 
 
 class SpimexTradingService:
@@ -33,26 +33,19 @@ class SpimexTradingService:
             except Exception as e:
                 print(f"Ошибка при обработке {url}: {e}")
 
-    @staticmethod
-    def normalize_record(rec: dict) -> dict:
-        return {
-            **rec,
-            "volume": float(rec["volume"]) if rec["volume"] else 0,
-            "total": float(rec["total"]) if rec["total"] else None,
-            "count": int(rec["count"]) if rec["count"] else 0,
-        }
-
     def _save_to_db(self, records: list[dict]):
-        session = SessionLocal()
-        try:
-            for rec in records:
-                rec = self.normalize_record(rec)
-                obj = SpimexTradingResult(**rec)
-                session.add(obj)
-            session.commit()
-            print(f"Сохранено {len(records)} записей")
-        except SQLAlchemyError as e:
-            session.rollback()
-            print(f"Ошибка при сохранении: {e}")
-        finally:
-            session.close()
+            session = SessionLocal()
+            try:
+                valid_records = []
+                for rec in records:
+                    try:
+                        rec_model = TradingResultSchema(**rec)
+                        valid_records.append(rec_model.model_dump())
+                    except Exception as e:
+                        print(f"Ошибка валидации: {e}")
+
+                repo = SpimexTradingRepository(session)
+                saved = repo.save_many(valid_records, batch_size=1000)
+                print(f"Сохранено {saved} записей")
+            finally:
+                session.close()
