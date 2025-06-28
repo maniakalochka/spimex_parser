@@ -3,6 +3,8 @@ from io import BytesIO
 
 import pandas as pd
 
+from pydantic import ValidationError
+from schemas.trading_result import TradingResultSchema
 from .base import BaseParser
 
 
@@ -61,9 +63,12 @@ class SpimexExcelParser(BaseParser):
                 "count": row.get("количество_договоров_шт"),
                 "date": pd.to_datetime(date_str, dayfirst=True).date(),
             }
-
-            results.append(result)
-            print(results)
+            try:
+                validated = TradingResultSchema(**result)
+                results.append(validated.model_dump())
+            except ValidationError as e:
+                print(f"Ошибка валидации строки: {e}")
+                continue
         return results
 
     @staticmethod
