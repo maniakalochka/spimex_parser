@@ -1,5 +1,5 @@
-from sqlalchemy.orm import Session, class_mapper
 from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy.orm import Session, class_mapper
 
 from models.spimex_trading_result import SpimexTradingResult
 
@@ -13,7 +13,7 @@ class SpimexTradingRepository:
 
         try:
             for i in range(0, len(records), batch_size):
-                batch = records[i:i + batch_size]
+                batch = records[i : i + batch_size]
                 self.session.bulk_insert_mappings(
                     class_mapper(SpimexTradingResult), batch
                 )

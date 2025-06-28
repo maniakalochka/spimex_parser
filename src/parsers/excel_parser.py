@@ -2,9 +2,10 @@ import re
 from io import BytesIO
 
 import pandas as pd
-
 from pydantic import ValidationError
+
 from schemas.trading_result import TradingResultSchema
+
 from .base import BaseParser
 
 

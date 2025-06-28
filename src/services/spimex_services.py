@@ -1,9 +1,9 @@
 import requests
 
 from database.db import SessionLocal
-from repositories.spimex_repo import SpimexTradingRepository
 from parsers.excel_parser import SpimexExcelParser
 from parsers.page_parser import SpimexPageParser
+from repositories.spimex_repo import SpimexTradingRepository
 from schemas.trading_result import TradingResultSchema
 
 
@@ -34,18 +34,18 @@ class SpimexTradingService:
                 print(f"Ошибка при обработке {url}: {e}")
 
     def _save_to_db(self, records: list[dict]):
-            session = SessionLocal()
-            try:
-                valid_records = []
-                for rec in records:
-                    try:
-                        rec_model = TradingResultSchema(**rec)
-                        valid_records.append(rec_model.model_dump())
-                    except Exception as e:
-                        print(f"Ошибка валидации: {e}")
+        session = SessionLocal()
+        try:
+            valid_records = []
+            for rec in records:
+                try:
+                    rec_model = TradingResultSchema(**rec)
+                    valid_records.append(rec_model.model_dump())
+                except Exception as e:
+                    print(f"Ошибка валидации: {e}")
 
-                repo = SpimexTradingRepository(session)
-                saved = repo.save_many(valid_records, batch_size=1000)
-                print(f"Сохранено {saved} записей")
-            finally:
-                session.close()
+            repo = SpimexTradingRepository(session)
+            saved = repo.save_many(valid_records, batch_size=1000)
+            print(f"Сохранено {saved} записей")
+        finally:
+            session.close()
