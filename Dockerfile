@@ -17,8 +17,6 @@ RUN pip install --no-cache-dir poetry \
 
 COPY src/ /src/
 
-# RUN chmod +x run.sh; ./run.sh
-
 COPY run.sh /src/run.sh
 RUN chmod +x /src/run.sh
 ENTRYPOINT ["/src/run.sh"]
