@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y \
     libpq-dev \
     && rm -rf /var/lib/apt/lists/*
 
-COPY .env alembic.ini run.sh pyproject.toml poetry.lock*  /src/
+COPY .env alembic.ini run.sh pyproject.toml  /src/
 
 ENV PYTHONPATH="/src"
 
