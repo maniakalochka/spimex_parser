@@ -1,6 +1,5 @@
-from datetime import datetime
-
-from pydantic import BaseModel
+from datetime import date
+from pydantic import BaseModel, field_validator
 
 
 class TradingResultSchema(BaseModel):
@@ -10,7 +9,14 @@ class TradingResultSchema(BaseModel):
     delivery_basis_id: str
     delivery_basis_name: str
     delivery_type_id: str
-    volume: str
+    volume: float
     total: float
     count: int
-    date: datetime
+    date: date
+
+@field_validator("volume", "total", mode="before")
+@classmethod
+def parse_floats(cls, value):
+    if isinstance(value, str):
+        return float(value.replace(",", "."))  # поддержка запятых
+    return value
