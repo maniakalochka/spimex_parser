@@ -6,10 +6,10 @@ from pydantic import ValidationError
 
 from schemas.trading_result import TradingResultSchema
 
-from .base import BaseParser
+from .base import BaseExcelParser
 
 
-class SpimexExcelParser(BaseParser):
+class SpimexExcelParser(BaseExcelParser):
     def parse(self, raw_input: bytes) -> list[dict]:
         date_str = self.extract_trade_date(raw_input)
 

@@ -7,7 +7,7 @@ from .base import Base
 
 
 class SpimexTradingResult(Base):
-    __tablename__ = "spimex_trading_results"
+    __tablename__ = "async_spimex_trading_results"
 
     exchange_product_id: Mapped[str] = mapped_column(
         String, nullable=False, unique=False

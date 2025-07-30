@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   spimex-parser:
     build: .
@@ -8,8 +6,6 @@ services:
     container_name: spimex-parser
     depends_on:
       - db
-    environment:
-      - DB_URL=postgresql+psycopg2://postgres:password@db:5432/spimex_trading_results
     command: python main.py
 
   db:
@@ -18,7 +14,7 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
-      POSTGRES_DB: spimex_trading_results
+      POSTGRES_DB: spimex_trading
     volumes:
       - pgdata:/var/lib/postgresql/data
     ports:
