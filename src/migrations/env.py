@@ -7,9 +7,9 @@ from alembic import context
 from sqlalchemy import pool
 from sqlalchemy.ext.asyncio import AsyncEngine, create_async_engine
 
-from src.core.config import settings
-from src.models.base import Base
-from src.models.spimex_trading_result import SpimexTradingResult
+from core.config import settings
+from models.base import Base
+from models.spimex_trading_result import SpimexTradingResult
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
 # Настройка логирования
