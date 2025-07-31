@@ -10,7 +10,7 @@ class Settings(BaseSettings):
     DB_URL: str
 
     class Config:
-        env_file = ".env.docker"
+        env_file = ".env"
 
 
 settings = Settings()  # type: ignore
